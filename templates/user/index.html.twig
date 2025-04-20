@@ -1,0 +1,74 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Ticket{% endblock %}
+
+{% block body %}
+
+<!-- page content -->
+            <div class="">
+            <div class="page-title">
+              <div class="title_left">
+                <h3>My Ticket</h3>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+
+            <div class="row">
+              <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>My Ticket</h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                      <div class="row">
+                          <div class="col-sm-12">
+                            <div class="card-box table-responsive">
+                    <p class="text-muted font-13 m-b-30">                    
+                    </p>
+                    <table id="datatable" class="table table-striped table-bordered" style="width:100%">
+                      <thead>
+                        <tr>
+                          <th>Title</th>
+                          <th>Status</th>
+                          <th>Priority</th>
+                          <th>Created at</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+
+
+                      <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td>{{ ticket.title }}</td>
+                        <td>{{ ticket.status }}</td>
+                        <td>{{ ticket.priority }}</td>
+                        <td>{{ ticket.createdAt|date('Y-m-d H:i') }}</td>
+                        <td>
+                        {# <a href="{{ path('user_view_ticket', { 'id': ticket.id }) }}" class="btn btn-info btn-sm">View Details</a> #}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                       
+                      </tbody>
+                    </table>
+					
+					
+                  </div>
+                </div>
+              </div>
+            </div>
+                </div>
+              </div>
+            </div>
+          </div>
+<!-- /page content -->
+{% endblock %}
+
+

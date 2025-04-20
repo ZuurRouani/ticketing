@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Ticket{% endblock %}
+
+
+{% block body %}
+<!-- page content -->
+    <div class="">
+        <div class="page-title">
+            <div class="title_left">
+                <h3>Form Elements</h3>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 ">
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>Create Ticket</h2>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <br />
+                        <div id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                                <br/>
+                            <div class="ln_solid"></div>
+                            <div class="item form-group">
+                                <div class="col-md-6 col-sm-6 offset-md-3">
+                                    <button class="btn btn-primary" type="button">Cancel</button>
+                                    <button class="btn btn-primary" type="reset">Reset</button>
+                                    <button type="submit" class="btn btn-success">Submit</button>
+                                </div>
+                            </div>
+                            {{ form_end(form) }}
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+<!-- /page content -->
+{% endblock %}
+
+
+
+
