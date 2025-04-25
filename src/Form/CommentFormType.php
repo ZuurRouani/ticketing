@@ -29,7 +29,4 @@ class CommentFormType extends AbstractType
             'data_class' => Comment::class,
         ]);
     }
-<<<<<<< HEAD
-}
-=======
 }
