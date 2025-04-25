@@ -1,0 +1,74 @@
+{% extends 'components/container.html.twig' %}
+
+{% block title %}Ticket Information{% endblock %}
+
+{% block content %}
+
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th scope="row" class="bg-light">Title</th>
+            <td>{{ ticket.title }}</td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Status</th>
+            <td>
+                <span class="badge 
+                    {% if ticket.status == 'new' %}badge-primary{% endif %}
+                    {% if ticket.status == 'in_progress' %}badge-warning{% endif %}
+                    {% if ticket.status == 'resolved' %}badge-success{% endif %}
+                    {% if ticket.status == 'non_resolved' %}badge-danger{% endif %}
+                    {% if ticket.status == 'closed' %}badge-secondary{% endif %}
+                ">
+                    {{ ticket.status|capitalize }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Priority</th>
+            <td>
+                <span class="badge 
+                    {% if ticket.priority == 'low' %}badge-success{% endif %}
+                    {% if ticket.priority == 'medium' %}badge-warning{% endif %}
+                    {% if ticket.priority == 'high' %}badge-danger{% endif %}
+                ">
+                    {{ ticket.priority|capitalize }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Category</th>
+            <td>{{ ticket.category.name }}</td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Assigned To</th>
+            <td>
+                {% if ticket.assigned != null and ticket.assigned != app.user %}
+                    {{ ticket.assigned.email }}
+                {% else %}
+                    <span class="text-muted">You</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Created By</th>
+            <td>
+                {% if ticket.owner != app.user %}
+                    {{ ticket.owner.email }}
+                {% else %}
+                    <span class="text-muted">You</span>
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Created At</th>
+            <td>{{ ticket.createdAt|date('Y-m-d H:i') }}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="mt-4">
+    <h6><strong>Description</strong></h6>
+    <p class="text-muted">{{ ticket.description }}</p>
+</div>
+{% endblock %}
+

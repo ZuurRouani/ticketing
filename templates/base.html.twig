@@ -5,11 +5,11 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
+
         {% endblock %}
 
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+
             {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
@@ -38,23 +38,36 @@
     <link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
     <!-- NProgress -->
     <link href="/vendors/nprogress/nprogress.css" rel="stylesheet">
-    <!-- iCheck -->
-    <link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
-	
-    <!-- bootstrap-progressbar -->
-    <link href="/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
-    <!-- JQVMap -->
-    <link href="/vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/>
-    <!-- bootstrap-daterangepicker -->
-    <link href="/vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
 
-   <!-- PNotify -->
+    <!-- PNotify -->
     <link href="/vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <style>
+      .pnotify-success {
+        background-color: #d4edda !important;
+        color: #155724 !important;
+      }
+      .pnotify-error {
+        background-color: #f8d7da !important;
+        color: #721c24 !important;
+      }
+      .pnotify-warning {
+        background-color: #fff3cd !important;
+        color: #856404 !important;
+      }
+      .pnotify-info {
+        background-color: #d1ecf1 !important;
+        color: #0c5460 !important;
+      }
+    </style>
+
     <!-- Custom Theme Style -->
     <link href="/build/css/custom.min.css" rel="stylesheet">
+
+    {% block headerStyles %}{% endblock %}
+    {% block headerScripts %}{% endblock %}
   </head>
 
-  <body class="nav-md">
+  <body class="nav-md footer_fixed">
     <div class="container body">
       <div class="main_container">
         {% include "components/sidebar.html.twig" %}
@@ -64,57 +77,37 @@
         <!-- /top navigation -->
 
         <!-- page content -->
-        <div class="right_col" role="main">
-            {% block body %}{% endblock %}
+        <div class="right_col" 
+        role="main">
+          <div style="min-height: 100vh; padding-top: 40px; padding-bottom: 40px;">
+              {% block body %}{% endblock %}
+          </div>
         </div>
         <!-- /page content -->
+        <!-- footer content -->
+        <footer class="footer_fixed border-top">
+          <div class="pull-right border-t" style="padding-right: 60px;">
+            Ticketing! - Made with <i class="fa fa-heart"></i> by <a href="#">Teams of 2</a>
+          </div>
+          <div class="clearfix"></div>
+        </footer>
+        <!-- /footer content -->
       </div>
     </div>
+
 
     <!-- jQuery -->
     <script src="/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
-    <script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- FastClick -->
     <script src="/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="/vendors/nprogress/nprogress.js"></script>
-    <!-- Chart.js -->
-    <script src="/vendors/Chart.js/dist/Chart.min.js"></script>
-    <!-- gauge.js -->
-    <script src="/vendors/gauge.js/dist/gauge.min.js"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <!-- iCheck -->
-    <script src="/vendors/iCheck/icheck.min.js"></script>
-    <!-- Skycons -->
-    <script src="/vendors/skycons/skycons.js"></script>
-    <!-- Flot -->
-    <script src="/vendors/Flot/jquery.flot.js"></script>
-    <script src="/vendors/Flot/jquery.flot.pie.js"></script>
-    <script src="/vendors/Flot/jquery.flot.time.js"></script>
-    <script src="/vendors/Flot/jquery.flot.stack.js"></script>
-    <script src="/vendors/Flot/jquery.flot.resize.js"></script>
-    <!-- Flot plugins -->
-    <script src="/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
-    <script src="/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
-    <script src="/vendors/flot.curvedlines/curvedLines.js"></script>
-    <!-- DateJS -->
-    <script src="/vendors/DateJS/build/date.js"></script>
-    <!-- JQVMap -->
-    <script src="/vendors/jqvmap/dist/jquery.vmap.js"></script>
-    <script src="/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
-    <script src="/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="/vendors/moment/min/moment.min.js"></script>
-    <script src="/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-    <!-- Custom Theme Scripts -->
-    <script src="/build/js/custom.min.js"></script>
-	
     <!-- PNotify -->
     <script src="/vendors/pnotify/dist/pnotify.js"></script>
-   
+    
     <script>
       $(document).ready(function () {
           {% for label, messages in app.flashes %}
@@ -131,5 +124,11 @@
           {% endfor %}
       });
     </script>
+
+    {% block footerStyles %}{% endblock %}
+    {% block footerScripts %}{% endblock %}
+
+    <!-- Custom Theme Scripts -->
+    <script src="/build/js/custom.js"></script>s
   </body>
 </html>

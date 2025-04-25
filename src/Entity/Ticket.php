@@ -6,6 +6,7 @@ use App\Repository\TicketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: TicketRepository::class)]
 class Ticket
@@ -15,32 +16,35 @@ class Ticket
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $owner_id = null;
-
-    #[ORM\Column]
-    private ?int $assigned_to_id = null;
-
-    #[ORM\Column(nullable: true)]
-    private ?int $category_id = null;
-
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $status = null;
+    #[ORM\Column(length: 50, options: ['default' => 'new'])]
+    private ?string $status = null; // e.g., new, in_progress, closed, resolved, non_resolved, closed
 
-    #[ORM\Column(length: 50)]
-    private ?string $priority = null;
+    #[ORM\Column(length: 50, options: ['default' => 'low'])]
+    private ?string $priority = null; // e.g., low, medium, high
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $updated_at = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?User $owner = null;
+
+    #[ORM\ManyToOne(inversedBy: 'admintickets')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?User $assigned = null;
+
+    #[ORM\ManyToOne(inversedBy: 'tickets')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Category $category = null;
 
     /**
      * @var Collection<int, Attachment>
@@ -54,60 +58,17 @@ class Ticket
     #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'ticket')]
     private Collection $comments;
 
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
-    private ?User $owner = null;
-
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
-    private ?User $assigned = null;
-
-    #[ORM\ManyToOne(inversedBy: 'tickets')]
-    private ?Category $category = null;
-
     public function __construct()
     {
         $this->attachments = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getOwnerId(): ?int
-    {
-        return $this->owner_id;
-    }
-
-    public function setOwnerId(int $owner_id): static
-    {
-        $this->owner_id = $owner_id;
-
-        return $this;
-    }
-
-    public function getAssignedToId(): ?int
-    {
-        return $this->assigned_to_id;
-    }
-
-    public function setAssignedToId(int $assigned_to_id): static
-    {
-        $this->assigned_to_id = $assigned_to_id;
-
-        return $this;
-    }
-
-    public function getCategoryId(): ?int
-    {
-        return $this->category_id;
-    }
-
-    public function setCategoryId(?int $category_id): static
-    {
-        $this->category_id = $category_id;
-
-        return $this;
     }
 
     public function getTitle(): ?string
@@ -160,24 +121,24 @@ class Ticket
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
     public function getUpdatedAt(): ?\DateTimeImmutable
     {
-        return $this->updated_at;
+        return $this->updatedAt;
     }
 
-    public function setUpdatedAt(?\DateTimeImmutable $updated_at): static
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): static
     {
-        $this->updated_at = $updated_at;
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }
@@ -242,24 +203,24 @@ class Ticket
         return $this;
     }
 
-    public function getOwner(): ?user
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(?user $owner): static
+    public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
 
         return $this;
     }
 
-    public function getAssigned(): ?user
+    public function getAssigned(): ?User
     {
         return $this->assigned;
     }
 
-    public function setAssigned(?user $assigned): static
+    public function setAssigned(?User $assigned): static
     {
         $this->assigned = $assigned;
 

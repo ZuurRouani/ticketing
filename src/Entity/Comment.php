@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CommentRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 #[ORM\Entity(repositoryClass: CommentRepository::class)]
 class Comment
@@ -13,51 +14,28 @@ class Comment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $ticket_id = null;
-
-    #[ORM\Column]
-    private ?int $user_id = null;
-
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $message = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'], nullable: true)]
     private ?\DateTimeImmutable $created_at = null;
 
-    #[ORM\ManyToOne(inversedBy: 'yes')]
-    private ?user $owner = null;
+    #[ORM\ManyToOne(inversedBy: 'comments')]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?Ticket $ticket = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
-    private ?ticket $ticket = null;
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?User $owner = null;
+
+    public function __construct()
+    {
+        $this->created_at = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTicketId(): ?int
-    {
-        return $this->ticket_id;
-    }
-
-    public function setTicketId(int $ticket_id): static
-    {
-        $this->ticket_id = $ticket_id;
-
-        return $this;
-    }
-
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
     }
 
     public function getMessage(): ?string
@@ -84,26 +62,26 @@ class Comment
         return $this;
     }
 
-    public function getOwner(): ?user
-    {
-        return $this->owner;
-    }
-
-    public function setOwner(?user $owner): static
-    {
-        $this->owner = $owner;
-
-        return $this;
-    }
-
-    public function getTicket(): ?ticket
+    public function getTicket(): ?Ticket
     {
         return $this->ticket;
     }
 
-    public function setTicket(?ticket $ticket): static
+    public function setTicket(?Ticket $ticket): static
     {
         $this->ticket = $ticket;
+
+        return $this;
+    }
+
+    public function getOwner(): ?User
+    {
+        return $this->owner;
+    }
+
+    public function setOwner(?User $owner): static
+    {
+        $this->owner = $owner;
 
         return $this;
     }

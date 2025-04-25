@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\AttachmentRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AttachmentRepository::class)]
@@ -13,86 +14,61 @@ class Attachment
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column]
-    private ?int $ticket_id = null;
-
-    #[ORM\Column]
-    private ?int $comment_id = null;
-
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $file_name = null;
+    private ?string $fileName = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $file_path = null;
+    private ?string $filePath = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $created_at = null;
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, options: ['default' => 'CURRENT_TIMESTAMP'], nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'attachments')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Ticket $ticket = null;
+
+    public function __construct()
+    {
+        $this->createdAt = new \DateTimeImmutable();
+    }
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTicketId(): ?int
-    {
-        return $this->ticket_id;
-    }
-
-    public function setTicketId(int $ticket_id): static
-    {
-        $this->ticket_id = $ticket_id;
-
-        return $this;
-    }
-
-    public function getCommentId(): ?int
-    {
-        return $this->comment_id;
-    }
-
-    public function setCommentId(int $comment_id): static
-    {
-        $this->comment_id = $comment_id;
-
-        return $this;
-    }
-
     public function getFileName(): ?string
     {
-        return $this->file_name;
+        return $this->fileName;
     }
 
-    public function setFileName(?string $file_name): static
+    public function setFileName(?string $fileName): static
     {
-        $this->file_name = $file_name;
+        $this->fileName = $fileName;
 
         return $this;
     }
 
     public function getFilePath(): ?string
     {
-        return $this->file_path;
+        return $this->filePath;
     }
 
-    public function setFilePath(string $file_path): static
+    public function setFilePath(string $filePath): static
     {
-        $this->file_path = $file_path;
+        $this->filePath = $filePath;
 
         return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
-        return $this->created_at;
+        return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
-        $this->created_at = $created_at;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
