@@ -63,9 +63,6 @@
 
     {% block headerStyles %}{% endblock %}
     {% block headerScripts %}{% endblock %}
-
-    {% block headerStyles %}{% endblock %}
-    {% block headerScripts %}{% endblock %}
   </head>
 
   <body class="nav-md footer_fixed">
@@ -84,21 +81,7 @@
           <div style="min-height: 100vh; padding-top: 40px; padding-bottom: 40px;">
               {% block body %}{% endblock %}
           </div>
-        <div class="right_col" 
-        role="main">
-          <div style="min-height: 100vh; padding-top: 40px; padding-bottom: 40px;">
-              {% block body %}{% endblock %}
-          </div>
-        </div>
         <!-- /page content -->
-        <!-- footer content -->
-        <footer class="footer_fixed border-top">
-          <div class="pull-right border-t" style="padding-right: 60px;">
-            Ticketing! - Made with <i class="fa fa-heart"></i> by <a href="#">Teams of 2</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- /footer content -->
         <!-- footer content -->
         <footer class="footer_fixed border-top">
           <div class="pull-right border-t" style="padding-right: 60px;">
@@ -110,8 +93,6 @@
       </div>
     </div>
 
-
-
     <!-- jQuery -->
     <script src="/vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -121,11 +102,8 @@
     <script src="/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="/vendors/nprogress/nprogress.js"></script>
-
-
     <!-- PNotify -->
     <script src="/vendors/pnotify/dist/pnotify.js"></script>
-    
     
     <script>
       $(document).ready(function () {
@@ -143,12 +121,6 @@
           {% endfor %}
       });
     </script>
-
-    {% block footerStyles %}{% endblock %}
-    {% block footerScripts %}{% endblock %}
-
-    <!-- Custom Theme Scripts -->
-    <script src="/build/js/custom.js"></script>s
 
     {% block footerStyles %}{% endblock %}
     {% block footerScripts %}{% endblock %}
