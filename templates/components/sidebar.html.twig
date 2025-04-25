@@ -1,42 +1,66 @@
-  <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="#" class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
-            </div>
+<div class="col-md-3 left_col menu_fixed">
+    <div class="left_col scroll-view">
+        <div class="navbar nav_title" style="border: 0;">
+          <a href="#" class="site_title"><i class="fa fa-paw"></i>
+            <span>Ticketing!</span></a>
+        </div>
 
-            <div class="clearfix"></div>
+        <div class="clearfix"></div>
 
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_pic">
-                <img src="/images/img.jpg" alt="..." class="img-circle profile_img">
-              </div>
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2 class="text-wrap">{{app.user.email}}</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                {% if is_granted('ROLE_USER') %}
-                  <li><a><i class="fa fa-home"></i> My Account <span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
-                      <li><a href="{{path('user_tickets')}}">My Tickets</a></li>
-                       <li><a href="{{path('user_create_ticket')}}">Create Ticket</a></li>
-
-                      </ul>
-                  </li>
-                  {% endif %}
-                </ul>
-              </div>
-            </div>
-            <!-- /sidebar menu -->
+        <!-- menu profile quick info -->
+        <div class="profile clearfix">
+          <div class="profile_pic">
+            <img src="/images/user.png" alt="user image"
+            class="img-circle profile_img">
+          </div>
+          <div class="profile_info">
+            <span>Welcome,</span>
+            <span class="text-wrap">{{app.user.email}}</span>
+            {% if is_granted('ROLE_ADMIN') and app.user.isSuperAdmin %}
+                <strong class="badge badge-primary">Super Admin</strong>
+            {% elseif is_granted('ROLE_ADMIN') %}
+                <strong class="badge badge-primary">Admin</strong>
+            {% elseif is_granted('ROLE_SUPPORT') %}
+                <strong class="badge badge-primary">Support</strong>
+            {% endif %}
           </div>
         </div>
+        <!-- /menu profile quick info -->
+
+        <br />
+
+        <!-- sidebar menu -->
+        <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
+          <div class="menu_section">
+            <h3>General</h3>
+            <ul class="nav side-menu">
+            {% if is_granted('ROLE_ADMIN') %}
+              <li><a><i class="fa fa-cogs"></i> Admin <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a href="{{ path('admin_tickets') }}">Manage Tickets</a></li>
+                  <li><a href="{{ path('admin_categories') }}">Manage Categories</a></li>
+                  <li><a href="{{ path('admin_users') }}">Manage Users</a></li>
+                  <li><a href="{{ path('admin_members') }}">Manage Members</a></li>
+                </ul>
+              </li>
+            {% endif %}
+            {% if is_granted('ROLE_SUPPORT') %}
+              <li><a href="{{ path('support_assigned_tickets') }}"><i class="fa fa-ticket"></i>
+              Assigned Tickets
+              </a></li>
+            {% endif %}
+            {% if is_granted('ROLE_USER') %}
+              <li><a><i class="fa fa-home"></i> My Account <span class="fa fa-chevron-down"></span></a>
+                <ul class="nav child_menu">
+                  <li><a href="{{path('user_tickets')}}">My Tickets</a></li>
+                    <li><a href="{{path('user_create_ticket')}}">Create Ticket</a></li>
+
+                  </ul>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+        </div>
+        <!-- /sidebar menu -->
+    </div>
+</div>

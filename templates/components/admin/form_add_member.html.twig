@@ -1,0 +1,40 @@
+{% extends 'components/container.html.twig' %}
+
+{% block title %}Add New Member{% endblock %}
+
+{% block content %}
+<form method="post">
+    <div class="modal-body">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <div class="input-group">
+                <div class="input-group-prepend">
+                    <button type="button" class="btn btn-secondary" id="generate-password">Generate</button>
+                </div>
+                <input type="password" id="password" name="password" class="form-control" required>
+                <div class="input-group-append">
+                    <button type="button" class="btn btn-secondary" id="toggle-password">Show</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Role</label>
+            <div class="form-check">
+                <input type="radio" id="role_admin" name="role" value="ROLE_ADMIN" class="form-check-input" required>
+                <label for="role_admin" class="form-check-label">Admin</label>
+            </div>
+            <div class="form-check">
+                <input type="radio" id="role_support" name="role" value="ROLE_SUPPORT" class="form-check-input" required>
+                <label for="role_support" class="form-check-label">Support</label>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-success">Add Member</button>
+    </div>
+</form>
+{% endblock %}

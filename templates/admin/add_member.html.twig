@@ -1,0 +1,39 @@
+{% extends 'components/layouts/panel_layout.html.twig' %}
+
+{% block title %} Add New Member{% endblock %}
+{% block pageTitle %} Add New Member{% endblock %}
+
+{% block body %}
+    <!-- Categories -->
+    {% include 'components/admin/form_add_member.html.twig' %}
+{% endblock %}
+
+{% block headerScripts %}
+    <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block footerScripts %}
+<script>
+    $(document).ready(function () {
+        // Generate random password
+        $('#generate-password').on('click', function () {
+            const password = Math.random().toString(36).slice(-8);
+            $('#password').val(password);
+        });
+
+        // Toggle password visibility
+        $('#toggle-password').on('click', function () {
+            const passwordField = $('#password');
+            const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
+            $(this).text(type === 'password' ? 'Show' : 'Hide');
+        });
+    });
+</script>
+{% endblock %}

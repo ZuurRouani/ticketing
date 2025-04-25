@@ -1,0 +1,128 @@
+{% extends 'components/layouts/panel_layout.html.twig' %}
+
+{% block title %}View Member{% endblock %}
+{% block pageTitle %}View Member{% endblock %}
+{% block pageTitleRight %}
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+    aria-haspopup="true" aria-expanded="false">
+    Actions
+  </button>
+  <div class="dropdown-menu">
+    <button type="button" class="dropdown-item btn" href="#" data-toggle="modal" data-target="#editMemberModal">Edit Roles</buttona>
+    {% if 'ROLE_SUPPORT' in member.roles or (is_granted('ROLE_ADMIN') 
+        and 'ROLE_ADMIN' in member.roles) %}
+      <!-- Delete Button -->
+      <button type="button" class="btn btn-danger dropdown-item " data-toggle="modal" data-target="#deleteMemberModal{{ member.id }}">
+          Delete
+      </button>
+    {% endif %}
+  </div>
+</div>
+
+{% if 'ROLE_SUPPORT' in member.roles or (is_granted('ROLE_ADMIN') 
+    and 'ROLE_ADMIN' in member.roles) %}
+      {% include 'components/delete_modal.html.twig' with {
+      'modalId': 'deleteMemberModal' ~ member.id,
+      'modalTitle': 'Confirm Deletion',
+      'modalMessage': 'Are you sure you want to delete this member? This action cannot be undone.',
+      'actionPath': path('admin_delete_member', { 'id': member.id }),
+      'confirmButtonText': 'Delete'
+  } %}
+{% endif %}
+<!-- Modal -->
+<div class="modal fade" id="editMemberModal" tabindex="-1" role="dialog" aria-labelledby="editMemberModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form method="POST">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editMemberModalLabel">Edit Member Roles</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="role_admin" name="role" value="ROLE_ADMIN" 
+                               {% if 'ROLE_ADMIN' in member.roles %}checked{% endif %}>
+                        <label class="form-check-label" for="role_admin">Admin</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" id="role_support" name="role" value="ROLE_SUPPORT" 
+                               {% if 'ROLE_SUPPORT' in member.roles %}checked{% endif %}>
+                        <label class="form-check-label" for="role_support">Support</label>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+    <!-- Member Details -->
+{% include 'components/admin/member_details.html.twig' with { 'member': member } %}
+    <!-- Assigned Tickets -->
+{% include 'components/admin/member_tickets.html.twig' with { 'tickets': tickets } %}
+
+{% endblock %}
+
+{% block headerStyles %}
+	<!-- iCheck -->
+	<link href="/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+  <!-- Datatables -->
+  <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+
+  <link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css"
+    rel="stylesheet">
+  <link
+    href="/vendors/datatables.net-buttons-bs/css/buttons.bootstrap.min.css"
+    rel="stylesheet">
+  <link
+    href="/vendors/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css"
+    rel="stylesheet">
+  <link
+    href="/vendors/datatables.net-responsive-bs/css/responsive.bootstrap.min.css"
+    rel="stylesheet">
+  <link
+    href="/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css"
+    rel="stylesheet">
+{% endblock %}
+
+{% block footerScripts %}
+	<!-- iCheck -->
+	<script src="/vendors/iCheck/icheck.min.js"></script>
+  <!-- Datatables -->
+  <script src="/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+  <script
+    src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+  <script
+    src="/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+  <script
+    src="/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+  <script
+    src="/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+  <script
+    src="/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+  <script
+    src="/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+  <script
+    src="/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+  <script
+    src="/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+  <script
+    src="/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+  <script
+    src="/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+  <script
+    src="/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+  <script src="/vendors/jszip/dist/jszip.min.js"></script>
+  <script src="/vendors/pdfmake/build/pdfmake.min.js"></script>
+  <script src="/vendors/pdfmake/build/vfs_fonts.js"></script>
+
+{% endblock %}
