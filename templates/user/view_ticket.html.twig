@@ -136,7 +136,7 @@
 
         {# Comments #}
         <!-- Comments -->
-    {% include 'components/ticket_comments.html.twig' with { 'comments': comments, 'form': form } %}
+    {% include 'components/ticket_comments.html.twig' with { 'comments': comments, 'form': form,'route_prefix':'user' } %}
       
         {# End Comments#}
     </div>
