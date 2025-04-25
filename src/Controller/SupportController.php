@@ -160,7 +160,7 @@ class SupportController extends BaseTicketController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->handleAddComment($ticket, $comment);
-            return $this->redirectWithSuccess('support_view_ticket', 'Comment added successfully.');
+            return $this->redirectWithSuccess('support_view_ticket', 'Comment added successfully.', ['id' => $id]);
         }
 
         return $this->render('support/view_ticket.html.twig', [

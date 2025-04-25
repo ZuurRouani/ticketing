@@ -13,26 +13,34 @@
         <tr>
             <th scope="row" class="bg-light">Status</th>
             <td>
-                <span class="badge 
-                    {% if ticket.status == 'new' %}badge-primary{% endif %}
-                    {% if ticket.status == 'in_progress' %}badge-warning{% endif %}
-                    {% if ticket.status == 'resolved' %}badge-success{% endif %}
-                    {% if ticket.status == 'non_resolved' %}badge-danger{% endif %}
-                    {% if ticket.status == 'closed' %}badge-secondary{% endif %}
-                ">
-                    {{ ticket.status|capitalize }}
+                {% set status_classes = {
+                    'new': 'badge-primary',
+                    'in_progress': 'badge-warning',
+                    'resolved': 'badge-success',
+                    'non_resolved': 'badge-danger',
+                    'closed': 'badge-secondary'
+                } %}
+                <span class="badge {{ status_classes[ticket.status] ?? 'badge-light' }}">
+                    {{ ticket.status|replace({
+                        'new': 'New',
+                        'in_progress': 'In Progress',
+                        'resolved': 'Resolved',
+                        'non_resolved': 'Non Resolved',
+                        'closed': 'Closed'
+                    })|default('Unknown') }}
                 </span>
             </td>
         </tr>
         <tr>
             <th scope="row" class="bg-light">Priority</th>
             <td>
-                <span class="badge 
-                    {% if ticket.priority == 'low' %}badge-success{% endif %}
-                    {% if ticket.priority == 'medium' %}badge-warning{% endif %}
-                    {% if ticket.priority == 'high' %}badge-danger{% endif %}
-                ">
-                    {{ ticket.priority|capitalize }}
+                {% set priority_classes = {
+                    'low': 'badge-success',
+                    'medium': 'badge-warning',
+                    'high': 'badge-danger'
+                } %}
+                <span class="badge {{ priority_classes[ticket.priority] ?? 'badge-light' }}">
+                    {{ ticket.priority|capitalize|default('No Priority') }}
                 </span>
             </td>
         </tr>
@@ -40,28 +48,18 @@
             <th scope="row" class="bg-light">Category</th>
             <td>{{ ticket.category.name }}</td>
         </tr>
-        {% if ticket.assigned != null and (is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPPORT'))  %}
+        {% if ticket.assigned and (is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPPORT')) %}
         <tr>
             <th scope="row" class="bg-light">Assigned To</th>
             <td>
-                {% if ticket.assigned != null and ticket.assigned != app.user %}
-                    {{ ticket.assigned.email }}
-                {% elseif ticket.assigned != null %}
-                    <span class="text-muted">You</span>
-                {% else %}
-                    <span class="text-muted">Unassigned</span>
-                {% endif %}
+                {{ ticket.assigned == app.user ? 'You' : ticket.assigned.email|default('Unassigned') }}
             </td>
         </tr>
         {% endif %}
         <tr>
             <th scope="row" class="bg-light">Created By</th>
             <td>
-                {% if ticket.owner != app.user %}
-                    {{ ticket.owner.email }}
-                {% else %}
-                    <span class="text-muted">You</span>
-                {% endif %}
+                {{ ticket.owner == app.user ? 'You' : ticket.owner.email }}
             </td>
         </tr>
         <tr>
