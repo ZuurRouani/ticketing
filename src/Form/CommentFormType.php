@@ -29,4 +29,8 @@ class CommentFormType extends AbstractType
             'data_class' => Comment::class,
         ]);
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b8d1145 (partie user)
