@@ -6,8 +6,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="images/favicon.ico" type="image/ico" />
-
+	  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>" />
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📝</text></svg>" />
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     <!-- Bootstrap -->
@@ -59,7 +60,7 @@
     </style>
 
     <!-- Custom Theme Style -->
-    <link href="/build/css/custom.min.css" rel="stylesheet">
+    <link href="/css/custom.min.css" rel="stylesheet">
 
     {% block headerStyles %}{% endblock %}
     {% block headerScripts %}{% endblock %}
@@ -98,8 +99,6 @@
     <!-- Bootstrap -->
    <script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
    <script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- FastClick -->
-    <script src="/vendors/fastclick/lib/fastclick.js"></script>
     <!-- NProgress -->
     <script src="/vendors/nprogress/nprogress.js"></script>
     <!-- PNotify -->
@@ -126,6 +125,6 @@
     {% block footerScripts %}{% endblock %}
 
     <!-- Custom Theme Scripts -->
-    <script src="/build/js/custom.js"></script>s
+    <script src="/js/custom.js"></script>s
   </body>
 </html>

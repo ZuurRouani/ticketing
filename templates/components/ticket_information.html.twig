@@ -40,16 +40,20 @@
             <th scope="row" class="bg-light">Category</th>
             <td>{{ ticket.category.name }}</td>
         </tr>
+        {% if ticket.assigned != null and (is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPPORT'))  %}
         <tr>
             <th scope="row" class="bg-light">Assigned To</th>
             <td>
                 {% if ticket.assigned != null and ticket.assigned != app.user %}
                     {{ ticket.assigned.email }}
-                {% else %}
+                {% elseif ticket.assigned != null %}
                     <span class="text-muted">You</span>
+                {% else %}
+                    <span class="text-muted">Unassigned</span>
                 {% endif %}
             </td>
         </tr>
+        {% endif %}
         <tr>
             <th scope="row" class="bg-light">Created By</th>
             <td>
