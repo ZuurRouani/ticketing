@@ -1,0 +1,12 @@
+{% extends 'components/layouts/panel_layout.html.twig' %}
+
+{% block title %}Manage Categories{% endblock %}
+{% block pageTitle %}Manage Categories{% endblock %}
+
+{% block content %}
+    <!-- Categories -->
+    {% include 'components/categories.html.twig' with { 'categories': categories } %}
+{% endblock %}
+
+
+

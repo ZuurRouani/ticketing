@@ -1,0 +1,10 @@
+{% extends 'components/layouts/panel_layout.html.twig' %}
+
+{% block title %}Manage Users{% endblock %}
+{% block pageTitle %}Manage Users{% endblock %}
+{% block content %}
+
+<!-- users -->
+{% include 'components/admin/users_list.html.twig' with { 'users': users } %}
+
+{% endblock %}

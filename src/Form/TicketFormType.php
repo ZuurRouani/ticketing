@@ -20,73 +20,50 @@ class TicketFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('owner_id')
-            // ->add('assigned_to_id')
-            // ->add('category_id')
             ->add('title', TextType::class, [
-                'label'=>'Label',
+                'label' => 'Label',
                 'attr' => [
                     'class' => 'form-control',
-              ],
+                ],
             ])
 
             ->add('description', TextareaType::class, [
-                'label'=>'Description',
+                'label' => 'Description',
                 'attr' => [
                     'class' => 'form-control',
-              ],
+                ],
             ])
-            
-            // ->add('status')
+
             ->add('priority', ChoiceType::class, [
                 'label' => 'Priority',
                 'choices' => [
-                'Low' => 'Low',
-                'Medium' => 'Medium',
-                'High' => 'High',
+                    'low' => 'Low',
+                    'medium' => 'Medium',
+                    'high' => 'High',
                 ],
                 'attr' => [
                     'class' => 'form-control',
                 ],
             ])
-            // ->add('created_at', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('updated_at', null, [
-            //     'widget' => 'single_text',
-            // ])
-            // ->add('owner', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id',
-            // ])
-            // ->add('assigned', EntityType::class, [
-            //     'class' => User::class,
-            //     'choice_label' => 'id',
-            // ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'label'=>'Category',
+                'label' => 'Category',
                 'attr' => [
                     'class' => 'form-control',
-              ],
+                ],
             ])
-            
+
             ->add('attachments', FileType::class, [
                 'label' => 'attachments (Photos/Documents)',
                 'mapped' => false,
                 'required' => false,
                 'multiple' => true,
-                'constraints' => [
-                        new NotBlank(['message' => 'Please upload at least one file.']),
+                'attr' => [
+                    'class' => 'form-control',
+                    'multiple' => 'multiple',
                 ],
-                 'attr' => [
-                       'class' => 'form-control',
-                       'multiple' => 'multiple',
-                 ],
-                ]);
-
-        ;
+            ]);;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

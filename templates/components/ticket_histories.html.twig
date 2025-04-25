@@ -1,0 +1,23 @@
+{% extends 'components/container.html.twig' %}
+
+{% block title %}Ticket History{% endblock %}
+
+{% block content %}
+
+<!-- Ticket History -->
+    {% if tickethistories is not empty %}
+        <ul class="list-group">
+            {% for history in tickethistories %}
+                <li class="list-group-item">
+                    <strong>{{ history.changedAt|date('Y-m-d H:i') }}</strong> - 
+                    {{ history.comment }}
+                    {% if history.changedBy %}
+                        <span class="text-muted">(by {{ history.changedBy.email }})</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No history available for this ticket.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends 'components/layouts/panel_layout.html.twig' %}
+
+{% block title %} Add New Member{% endblock %}
+{% block pageTitle %} Add New Member{% endblock %}
+
+{% block body %}
+    <!-- Categories -->
+    {% include 'components/admin/form_add_member.html.twig' %}
+{% endblock %}
+
+
+{% block footerScripts %}
+<script>
+    $(document).ready(function () {
+        // Generate random password
+        $('#generate-password').on('click', function () {
+            const password = Math.random().toString(36).slice(-8);
+            $('#password').val(password);
+        });
+
+        // Toggle password visibility
+        $('#toggle-password').on('click', function () {
+            const passwordField = $('#password');
+            const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+            passwordField.attr('type', type);
+            $(this).text(type === 'password' ? 'Show' : 'Hide');
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'components/container.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card-box table-responsive">
+            <table id="datatable-tickets"
+                class="table table-striped table-bordered dt-responsive nowrap datatable"
+                cellspacing="0" width="100%">
+                <thead>
+                    <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Priority</th>
+                    <th>Created At</th>
+                    <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ticket in tickets %}
+                    <tr>
+                        <td>{{ ticket.title }}</td>
+                        <td>{{ ticket.status }}</td>
+                        <td>{{ ticket.priority }}</td>
+                        <td>{{ ticket.createdAt|date('Y-m-d H:i') }}</td>
+                        <td>
+                        <a href="{{ path(route_prefix ~ '_view_ticket', { 'id': ticket.id }) }}" class="btn btn-info btn-sm">View Details</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

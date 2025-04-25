@@ -21,55 +21,52 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
     private ?string $email = null;
 
     /**
      * @var list<string> The user roles
      */
-    #[ORM\Column]
+    #[ORM\Column(type: Types::JSON)]
     private array $roles = [];
 
-    
-    #[ORM\Column]
-    private ?bool $is_super_admin = null;
+    #[ORM\Column(type: Types::BOOLEAN, options: ["default" => false])]
+    private ?bool $isSuperAdmin = false;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    private ?\DateTimeInterface $created_date = null;
-    
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true, options: ["default" => "CURRENT_TIMESTAMP"])]
+    private ?\DateTimeInterface $createdDate = null;
+
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(length: 255)]
     private ?string $password = null;
 
-            /**
+    /**
      * @var Collection<int, Ticket>
      */
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'assigned')]
+    #[ORM\OneToMany(mappedBy: 'assigned', targetEntity: Ticket::class)]
     private Collection $admintickets;
 
     /**
      * @var Collection<int, Ticket>
      */
-    #[ORM\OneToMany(targetEntity: Ticket::class, mappedBy: 'owner')]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Ticket::class)]
     private Collection $tickets;
 
-        /**
+    /**
      * @var Collection<int, Comment>
      */
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'owner')]
+    #[ORM\OneToMany(mappedBy: 'owner', targetEntity: Comment::class)]
     private Collection $comments;
-
 
     public function __construct()
     {
         $this->comments = new ArrayCollection();
         $this->tickets = new ArrayCollection();
         $this->admintickets = new ArrayCollection();
-
     }
-    
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,7 +103,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
+        // $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -138,30 +135,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function isSuperAdmin(): ?bool
     {
-        return $this->is_super_admin;
+        return $this->isSuperAdmin;
     }
 
-    public function setIsSuperAdmin(bool $is_super_admin): static
+    public function setIsSuperAdmin(bool $isSuperAdmin): static
     {
-        $this->is_super_admin = $is_super_admin;
+        $this->isSuperAdmin = $isSuperAdmin;
 
         return $this;
     }
 
     public function getCreatedDate(): ?\DateTimeInterface
     {
-        return $this->created_date;
+        return $this->createdDate;
     }
 
-    public function setCreatedDate(\DateTimeInterface $created_date): static
+    public function setCreatedDate(\DateTimeInterface $createdDate): static
     {
-        $this->created_date = $created_date;
+        $this->createdDate = $createdDate;
 
         return $this;
     }
 
-
-        /**
+    /**
      * @return Collection<int, Comment>
      */
     public function getComments(): Collection
@@ -190,7 +186,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-        /**
+
+    /**
      * @return Collection<int, Ticket>
      */
     public function getTickets(): Collection
@@ -198,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->tickets;
     }
 
-        /**
+    /**
      * @return Collection<int, Ticket>
      */
     public function getAdminTickets(): Collection
@@ -216,7 +213,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-
     public function addAdminTicket(Ticket $ticket): static
     {
         if (!$this->admintickets->contains($ticket)) {
@@ -227,7 +223,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     public function removeTicket(Ticket $ticket): static
-
     {
         if ($this->tickets->removeElement($ticket)) {
             // set the owning side to null (unless already changed)
@@ -250,6 +245,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
     /**
      * @see UserInterface
      */

@@ -1,0 +1,76 @@
+{% extends 'components/container.html.twig' %}
+
+{% block title %}Ticket Information{% endblock %}
+
+{% block content %}
+
+<table class="table table-bordered">
+    <tbody>
+        <tr>
+            <th scope="row" class="bg-light">Title</th>
+            <td>{{ ticket.title }}</td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Status</th>
+            <td>
+                {% set status_classes = {
+                    'new': 'badge-primary',
+                    'in_progress': 'badge-warning',
+                    'resolved': 'badge-success',
+                    'non_resolved': 'badge-danger',
+                    'closed': 'badge-secondary'
+                } %}
+                <span class="badge {{ status_classes[ticket.status] ?? 'badge-light' }}">
+                    {{ ticket.status|replace({
+                        'new': 'New',
+                        'in_progress': 'In Progress',
+                        'resolved': 'Resolved',
+                        'non_resolved': 'Non Resolved',
+                        'closed': 'Closed'
+                    })|default('Unknown') }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Priority</th>
+            <td>
+                {% set priority_classes = {
+                    'low': 'badge-success',
+                    'medium': 'badge-warning',
+                    'high': 'badge-danger'
+                } %}
+                <span class="badge {{ priority_classes[ticket.priority] ?? 'badge-light' }}">
+                    {{ ticket.priority|capitalize|default('No Priority') }}
+                </span>
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Category</th>
+            <td>{{ ticket.category.name }}</td>
+        </tr>
+        {% if ticket.assigned and (is_granted('ROLE_ADMIN') or is_granted('ROLE_SUPPORT')) %}
+        <tr>
+            <th scope="row" class="bg-light">Assigned To</th>
+            <td>
+                {{ ticket.assigned == app.user ? 'You' : ticket.assigned.email|default('Unassigned') }}
+            </td>
+        </tr>
+        {% endif %}
+        <tr>
+            <th scope="row" class="bg-light">Created By</th>
+            <td>
+                {{ ticket.owner == app.user ? 'You' : ticket.owner.email }}
+            </td>
+        </tr>
+        <tr>
+            <th scope="row" class="bg-light">Created At</th>
+            <td>{{ ticket.createdAt|date('Y-m-d H:i') }}</td>
+        </tr>
+    </tbody>
+</table>
+<div class="mt-4">
+    <h6><strong>Description</strong></h6>
+    <p class="text-muted">{{ ticket.description }}</p>
+</div>
+{% endblock %}
+

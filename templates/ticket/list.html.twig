@@ -1,0 +1,10 @@
+{% extends 'components/layouts/panel_layout.html.twig' %}
+
+{% block title %}List Tickets{% endblock %}
+{% block pageTitle %}List Tickets{% endblock %}
+
+{% block content %}
+    <!-- User Tickets -->
+    {% include 'components/table_tickets.html.twig' with { 'tickets': tickets, 'route_prefix':route_prefix,'title': list_title ?? 'List Tickets' } %}
+
+{% endblock %}
