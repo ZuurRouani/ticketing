@@ -5,16 +5,15 @@
 {% block body %}
 
 <!-- page content -->
-            <div class="">
-            <div class="page-title">
-              <div class="title_left">
-                <h3>My Ticket</h3>
-              </div>
-            </div>
+<div class="">
+    <div class="page-title">
+        <div class="title_left">
+            <h3>My Ticket</h3>
+        </div>
+    </div>
 
-            <div class="clearfix"></div>
-
-            <div class="row">
+    <div class="clearfix"></div>
+    <div class="row">
               <div class="col-md-12 col-sm-12 ">
                 <div class="x_panel">
                   <div class="x_title">
@@ -41,33 +40,28 @@
                           <th>Actions</th>
                         </tr>
                       </thead>
-
-
                       <tbody>
-                    {% for ticket in tickets %}
-                    <tr>
-                        <td>{{ ticket.title }}</td>
-                        <td>{{ ticket.status }}</td>
-                        <td>{{ ticket.priority }}</td>
-                        <td>{{ ticket.createdAt|date('Y-m-d H:i') }}</td>
-                        <td>
-                        {# <a href="{{ path('user_view_ticket', { 'id': ticket.id }) }}" class="btn btn-info btn-sm">View Details</a> #}
-                        </td>
-                    </tr>
-                    {% endfor %}
-                       
+                        {% for ticket in tickets %}
+                        <tr>
+                            <td>{{ ticket.title }}</td>
+                            <td>{{ ticket.status }}</td>
+                            <td>{{ ticket.priority }}</td>
+                            <td>{{ ticket.createdAt|date('Y-m-d H:i') }}</td>
+                            <td>
+                            <a href="{{ path('user_view_ticket', { 'id': ticket.id }) }}" class="btn btn-info btn-sm">View Details</a>
+                            </td>
+                        </tr>
+                        {% endfor %}
                       </tbody>
                     </table>
-					
-					
                   </div>
                 </div>
               </div>
             </div>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
+    </div>
+</div>
 <!-- /page content -->
 {% endblock %}
 
