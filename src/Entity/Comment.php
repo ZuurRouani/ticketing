@@ -16,8 +16,7 @@ class Comment
     #[ORM\Column]
     private ?int $ticket_id = null;
 
-    #[ORM\Column]
-    private ?int $user_id = null;
+
 
     #[ORM\Column(length: 255)]
     private ?string $message = null;
@@ -26,7 +25,7 @@ class Comment
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'yes')]
-    private ?user $owner = null;
+    private ?User $owner = null;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     private ?ticket $ticket = null;
@@ -48,17 +47,7 @@ class Comment
         return $this;
     }
 
-    public function getUserId(): ?int
-    {
-        return $this->user_id;
-    }
-
-    public function setUserId(int $user_id): static
-    {
-        $this->user_id = $user_id;
-
-        return $this;
-    }
+ 
 
     public function getMessage(): ?string
     {
@@ -84,12 +73,12 @@ class Comment
         return $this;
     }
 
-    public function getOwner(): ?user
+    public function getOwner(): ?User
     {
         return $this->owner;
     }
 
-    public function setOwner(?user $owner): static
+    public function setOwner(?User $owner): static
     {
         $this->owner = $owner;
 

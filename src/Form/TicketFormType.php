@@ -36,6 +36,7 @@ class TicketFormType extends AbstractType
                     'class' => 'form-control',
               ],
             ])
+            
             // ->add('status')
             ->add('priority', ChoiceType::class, [
                 'label' => 'Priority',
@@ -70,6 +71,7 @@ class TicketFormType extends AbstractType
                     'class' => 'form-control',
               ],
             ])
+            
             ->add('attachments', FileType::class, [
                 'label' => 'attachments (Photos/Documents)',
                 'mapped' => false,
